@@ -1,0 +1,201 @@
+/*@import "normalize.css";*/
+@import url('https://unpkg.com/ionicons@4.1.2/dist/css/ionicons.min.css');
+@import url('https://fonts.googleapis.com/css?family=Arimo');
+@import url('https://fonts.googleapis.com/css?family=Handlee');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Handlee', cursive;
+  margin: 0;
+  padding: 0;
+  }
+
+/*para sacarle el subrayando a las listas que componen el header*/
+a {
+  text-decoration: none;
+  display: inline-block;
+}
+
+@-ms-viewport {
+  width: device-width;
+}
+
+ul, ol, li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.main-header { /*contiene el logo, la hamburguesa y el menu*/
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  padding: 0;
+  margin: 0;
+}
+
+.logo {
+  width: 100%;
+  height: auto;
+  margin: 0;
+}
+
+.toggle-nav {
+  /*display: block;*/
+  margin: 0;
+  background-color: white;
+  color: #333;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  font-size: 30px;
+  /*padding: 5px 0;*/
+}
+
+.icon.ion-md-menu {
+  display: block;
+  width: 100%;
+  font-size: 60px;
+}
+
+/*contiene los botones del menu*/
+.botones-navegacion {
+  width: 100%;
+}
+
+.botones-navegacion .nav1 {
+  display: block;
+  background-color: rgb(255, 153, 0);
+  border-top: solid 1px #fff;
+  width: 100%;
+  color: #fff;
+  font-size: 1.3em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 10px;
+}
+/*estilos hola y foto de la hoja servicios*/
+.holafoto {
+  background-color: rgb(255, 153, 0);
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+.holafoto .saludo p {
+  margin: 0;
+}
+/*estilos footer*/
+.main-footer .row .col-sm-8 {
+  /*border:solid green;*/
+}
+.logo-footer {
+  width: 100%;
+}
+
+.main-footer .row .col-sm-4 {
+    /*border:solid red;*/
+    background-color: rgb(255, 153, 0);
+    color: #fff;
+    text-align: center;
+    font-size: 1.2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.main-footer .row .col-sm-4 ul {
+  vertical-align: middle;
+}
+.main-footer a {
+  text-decoration: none;
+  color: #fff;
+}
+
+/*estilos index*/
+.filadechicos {
+  width: 100%;
+}
+.nenalovemyschool {
+  width: 100%;
+}
+.col-sm-6.intro-1 {
+  text-align: justify;
+  }
+.col-sm-6.intro-2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/*estilos faq*/
+.card-header.titulo-faq {
+  background-color: rgb(255, 51, 0);
+}
+.card-header.titulo-faq .mb-0.text-center{
+  font-weight: bold;
+  color: white;
+}
+.card-header.preg {
+  background-color: rgb(45, 134, 45);
+  }
+.card-header.preg .mb-0 a {
+  color: black;
+}
+.panel-collapse.collapse .card-body {
+  font-size: 20px;
+  background-color: rgb(140, 217, 140);
+}
+
+
+@media (min-width: 576px) {
+  .logo {
+    width: 80%;
+  }
+}
+
+@media (min-width: 768px) {
+}
+
+@media (min-width: 992px) {
+  .toggle-nav {
+    display: none;
+  }
+  /*.botones-navegacion {
+    background-color: red;
+  }*/
+  .botones-navegacion ul {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .botones-navegacion ul li {
+    width: 20%;
+    border-left: solid white;
+    border-right: solid white;
+  }
+  .botones-navegacion ul li .nav1 {
+    height: 100%;
+    border-top: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .main-footer .row .col-sm-4 {
+    font-size: 1.5em;
+  }
+}
+
+@media (min-width: 1200px) {
+  .logo {
+    width: 60%;
+  }
+  .main-footer .row .col-sm-4 {
+    font-size: 2.1em;
+  }
+}
