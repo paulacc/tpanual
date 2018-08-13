@@ -10,6 +10,7 @@ ini_set('display_errors', 1);
 
     private $id;
     private $name;
+    private $lastname;
     private $dni;
     private $codigo;
     private $telefono;
@@ -19,17 +20,18 @@ ini_set('display_errors', 1);
     private $avatar;
 
 
-    function __construct($name,$dni,$codigo,$telefono,$usuario,$email,$pwd,$avatar,$id=null)
+    function __construct($name,$lastname,$dni,$codigo,$telefono,$usuario,$email,$pwd,$avatar,$id=null)
     {
       $this->id = trim($id);
       $this->name = trim($name);
+      $this->lastname = trim($lastname);
       $this->dni = trim($dni);
-      $this->email = trim($codigo);
-      $this->email = trim($telefono);
-      $this->email = trim($usuario);
+      $this->codigo = trim($codigo);
+      $this->telefono = trim($telefono);
+      $this->usuario = trim($usuario);
       $this->email = trim($email);
       $this->pwd = trim($pwd);
-      $this->role = trim($avatar);
+      $this->avatar = trim($avatar);
 
     }
 
@@ -39,40 +41,40 @@ ini_set('display_errors', 1);
                 {
                     $errores = [] ;
 
-                    if(empty($this->name)){
-                        $errores[] = "El campo nombre es obligatorio";
-                     }elseif (!ctype_alpha($this->name)){
+                 if(empty($this->name)){
+                    $errores[] = "El campo nombre es obligatorio";
+                  }elseif (!ctype_alpha($this->name)){
                         $errores[] = "El campo nombre solo debe contener letras";
-                     }if(empty($this->dni)){
+                 }if(empty($this->dni)){
                        $errores[] = "El campo dni es obligatorio";
-                     }elseif (!is_numeric($this->dni)) {
+                 }elseif (!is_numeric($this->dni)) {
                        $errores[] = "El campo dni sólo debe contener números";
                      }
-                     if($this->email == ''){
+                  if($this->email == ''){
                       $errores[]= "El campo email es obligatorio";
-                    }elseif(!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+                  }elseif(!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
                        $errores[] = 'El correo no es válido" ';
-                    }
-                    if(empty($this->email)){
+                  }
+                  if(empty($this->email)){
                       $errores[] = "Debes ingresar una contraseña ";
-                   }elseif ((strlen($this->pwd) < 3 )) {
+                 }elseif ((strlen($this->pwd) < 3 )) {
                     $errores[] = "La contraseña debe tener más de 3 caracteres ";
                   }elseif($this->ValidarEmail()){
                     $errores[] = "El mail ya se encuentra registrado";
                   }
-                   if($this->pwd != $rpwd){
+                  if($this->pwd != $rpwd){
                      $errores[]= "las contraseñas deben coincidir ";
-                   }
+                 }
                      return $errores;
                   }
 
 
 
-           public function ValidarEmail(){
-           include 'conexion.php';
+           public function validarEmail(){
+           include 'conn.php';
 
 
-           $consulta = "select count(*) from movies_db.users where email = '{$this->email}'";
+           $consulta = "select count(*) from movies_db.usuarios where email = '{$this->email}'";
            $resultado = $db->query($consulta);
            $existe = 0;
            foreach ($resultado as $registro) {
@@ -83,12 +85,12 @@ ini_set('display_errors', 1);
 
 
 
-          public function GuardarUsuario()
+          public function guardarUsuario()
           {
-            include 'conexion.php';
+            include 'conn.php';
            try {
              $phash = password_hash(trim($this->pwd),PASSWORD_DEFAULT);
-             $sql = "INSERT INTO movies_db.users (name, email, password,role) VALUES ('{$this->name}','{$this->email}','{$phash}','1')";
+             $sql = "INSERT INTO movies_db.usuarios (name, email, password,role) VALUES ('{$this->name}','{$this->email}','{$phash}','1')";
              $query = $db->prepare($sql);
              $query->execute();
            }
@@ -102,7 +104,7 @@ ini_set('display_errors', 1);
          public function  validarLogueo(){
             $errores = [];
 
-            if(!$this->ValidarEmail()){
+            if(!$this->validarEmail()){
                $errores [] = 'Verificar email ingresado';
             }elseif(!$this->validarPassword()){
              $errores[] = 'La contraseña es incorrecta';
@@ -113,8 +115,8 @@ ini_set('display_errors', 1);
          }
 
        private function validarPassword(){
-         include("conexion.php");
-        $busqueda = "SELECT * FROM movies_db.users WHERE email = {$this->email}";
+         include("conn.php");
+        $busqueda = "SELECT * FROM movies_db.usuarios WHERE email = {$this->email}";
         $consultaSql = $db->prepare($busqueda);
         $consultaSql->execute();
         $resultado = $consultaSql->fetch(PDO::FETCH_ASSOC);
@@ -139,17 +141,39 @@ ini_set('display_errors', 1);
         public function getName(){
           return $this->name;
         }
+        public function getLastname(){
+          return $this->name;
+        }
+
+        public function getDni(){
+          return $this->dni;
+        }
+
+        public function getCodigo(){
+          return $this->codigo;
+        }
+
+        public function getTelefono(){
+          return $this->telefono;
+        }
+
+
+        public function getUsuario(){
+          return $this->usuario;
+        }
+
 
         public function getEmail(){
           return $this->email;
         }
 
+
         public function getPwd(){
           return $this->pwd;
         }
 
-        public function getRole(){
-          return $this->role;
+        public function getAvatar(){
+          return $this->avatar;
         }
 
 

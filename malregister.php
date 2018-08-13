@@ -1,42 +1,51 @@
 <?php
-	require_once('funcionesandres.php');
+	require_once('clases/usuario.php');
 
-	if (estaLogueado()) {
-		header('location: servicios.php');
-		exit;
+	//if (estaLogueado()) {
+		//header('location: servicios.php');
+		//exit;
+	//}
+
+	$nuevoUsuario = new Usuario("","","","","","","");
+  $rpwd = "";
+  $errores=[];
+
+
+
+	if($_POST){
+
+	  $nuevoUsuario = new Usuario($_POST['name'],$_POST['lastname'],$_POST['dni'],$_POST['codigo'],$_POST['telefono'],$_POST['username'],$_POST['email'],$_POST['pass']);
+	  $rpwd=trim($_POST['rpwd']);
+	  $errores = $nuevoUsuario->Validar($rpwd);
+
+	  if (empty($errores)) {
+	    $nuevoUsuario->guardarUsuario();
+	    header('location: index.php');
+	    exit;
+	 }
 	}
 
-	$name = '';
-	$lastname = '';
-	$dni = '';
-	$areacode = '';
-	$phone = '';
-	$username = '';
-	$email = '';
+	//if ($_POST) {
 
-	$errores = [];
+	//	$name = trim($_POST['name']);
+	//	$lastname = trim($_POST['lastname']);
+	//	$dni = trim($_POST['dni']);
+	//	$areacode = trim($_POST['codigo']);
+	//$phone = trim($_POST['telefono']);
+		//$username = trim($_POST['username']);
+		//$email = trim($_POST['email']);
 
-	if ($_POST) {
+		//$errores = validar($_POST, 'avatar');
 
-		$name = trim($_POST['name']);
-		$lastname = trim($_POST['lastname']);
-		$dni = trim($_POST['dni']);
-		$areacode = trim($_POST['areacode']);
-		$phone = trim($_POST['phone']);
-		$username = trim($_POST['username']);
-		$email = trim($_POST['email']);
+		//if (empty($errores)) {
+			//$errores = guardarImagen('avatar');
 
-		$errores = validar($_POST, 'avatar');
-
-		if (empty($errores)) {
-			$errores = guardarImagen('avatar');
-
-			if (empty($errores)) {
-				$usuario = guardarUsuario($_POST, 'avatar');
-				loguear($usuario);
-			}
-		}
-	}
+			//if (empty($errores)) {
+				//$usuario = guardarUsuario($_POST, 'avatar');
+				//loguear($usuario);
+			//}
+		//}
+	//}
 ?>
 
 <!DOCTYPE html>
@@ -73,7 +82,7 @@
 
       </head>
 			<?php
-			 require_once('header.html');
+			 //require_once('header.html');
 			?>
    <body class="cuerpo">
 
@@ -123,21 +132,21 @@
         <div class="form-row d-flex justify-content-center ">
 
 					<div class="col-sm-3">
-						<div class="form-group <?= isset($errores['areacode']) ? 'has-error' : null ?>">
+						<div class="form-group <?= isset($errores['codigo']) ? 'has-error' : null ?>">
 							<label class="control-label">Código de área:</label>
-							<input type="text" class="form-control" name="areacode" value="<?=$areacode?>">
-							<span class="help-block" style="<?= !isset($errores['areacode']) ? 'display: none;' : ''; ?>">
-								<?= isset($errores['areacode']) ? $errores['areacode'] : ''; ?>
+							<input type="text" class="form-control" name="codigo" value="<?=$areacode?>">
+							<span class="help-block" style="<?= !isset($errores['codigo']) ? 'display: none;' : ''; ?>">
+								<?= isset($errores['codigo']) ? $errores['codigo'] : ''; ?>
 							</span>
 						</div>
 					</div>
 
 					<div class="col-sm-5">
-						<div class="form-group <?= isset($errores['phone']) ? 'has-error' : null ?>">
+						<div class="form-group <?= isset($errores['telefono']) ? 'has-error' : null ?>">
 							<label class="control-label">Número de teléfono:</label>
-							<input type="text" class="form-control" name="phone" value="<?=$phone?>">
-							<span class="help-block" style="<?= !isset($errores['phone']) ? 'display: none;' : ''; ?>">
-								<?= isset($errores['phone']) ? $errores['phone'] : ''; ?>
+							<input type="text" class="form-control" name="telefono" value="<?=$phone?>">
+							<span class="help-block" style="<?= !isset($errores['telefono']) ? 'display: none;' : ''; ?>">
+								<?= isset($errores['telefono']) ? $errores['telefono'] : ''; ?>
 							</span>
 						</div>
 					</div>
@@ -167,11 +176,11 @@
 					</div>
 
 					<div class="col-sm-8">
-						<div class="form-group <?= isset($errores['pass']) ? 'has-error' : null ?>">
+						<div class="form-group <?= isset($errores['pwd']) ? 'has-error' : null ?>">
 							<label class="control-label">Contraseña:</label>
-							<input class="form-control" type="password" name="pass" value="">
-							<span class="help-block" style="<?= !isset($errores['pass']) ? 'display: none;' : ''; ?>">
-								<?= isset($errores['pass']) ? $errores['pass'] : ''; ?>
+							<input class="form-control" type="password" name="pwd" value="">
+							<span class="help-block" style="<?= !isset($errores['pwd']) ? 'display: none;' : ''; ?>">
+								<?= isset($errores['pwd']) ? $errores['pwd'] : ''; ?>
 							</span>
 		        </div>
 					</div>
@@ -179,9 +188,9 @@
 					<div class="col-sm-8">
 						<div class="form-group <?= isset($errores['pass']) ? 'has-error' : null ?>">
 							<label class="control-label">Repetir Contraseña:</label>
-							<input class="form-control" type="password" name="rpass" value="">
-							<span class="help-block" style="<?= !isset($errores['pass']) ? 'display: none;' : ''; ?>">
-								<?= isset($errores['pass']) ? $errores['pass'] : ''; ?>
+							<input class="form-control" type="password" name="rpwd" value="">
+							<span class="help-block" style="<?= !isset($errores['rpwd']) ? 'display: none;' : ''; ?>">
+								<?= isset($errores['rpwd']) ? $errores['rpwd'] : ''; ?>
 							</span>
 		        </div>
 					</div>
