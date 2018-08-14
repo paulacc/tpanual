@@ -10,24 +10,53 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 require 'clases/usuario.php';
-require 'funciones.php';
+//require 'funciones.php';
 
-$nuevoUsuario = new Usuario("","","","","","","");
+$nuevoUsuario = new Usuario("","","","","","","","","");
+//persistir datos
 $rpwd = "";
 $errores=[];
 
 
 if($_POST){
 
- $nuevoUsuario = new Usuario($_POST['name'],$_POST['lastname'],$_POST['dni'],$_POST['codigo'],$_POST['telefono'],$_POST['username'],$_POST['email'],$_POST['pass'],$_POST['avatar']);
-  $rpwd=trim($_POST['rpwd']);
-  $errores = $nuevoUsuario->Validar($rpwd);
+//controlar lo que llega por Post y creo las variables necesarioas para crear el objeto
+  // if(isset($_POST['id'])){
+  //   $id = $_POST['id'];
+  // } else {
+  //   $id = 0;
+  // }
+  // $id =  isset($_POST['id']) ? $_POST['id'] : 0;
+  
+  //limpiar $_POST
 
-  if (empty($errores)) {
-    $nuevoUsuario->GuardarUsuario();
-    header('location: logueo.php');
-    exit;
- }
+  $id =  $_POST['id'] ?? 0;
+  $name =  $_POST['name'] ?? '';
+  $lastname =  $_POST['lastname'] ?? '';
+  $email =  $_POST['email'] ?? '';
+  $dni =  $_POST['dni'] ?? '';
+  $codigo =  $_POST['codigo'] ?? '';
+  $telefono =  $_POST['telefono'] ?? '';
+  $avatar =  $_POST['avatar'] ?? '';
+  
+  
+  //creando objeto 
+   $nuevoUsuario = new Usuario($name,$lastname,$email);
+   $nuevoUsuario->setId($id);
+   $nuevoUsuario->setDni($dni);
+   $nuevoUsuario->setCodigo($codigo);
+   $nuevoUsuario->setTelefono($telefono);
+   $nuevoUsuario->setAvatar($avatar);
+   
+
+    $rpwd=trim($_POST['rpwd']);
+    $errores = $nuevoUsuario->Validar($rpwd);
+
+    if (empty($errores)) {
+      $nuevoUsuario->GuardarUsuario();
+      header('location: logueo.php');
+      exit;
+   }
 }
 
 
@@ -114,11 +143,6 @@ if($_POST){
 
                                 </div>
 
-                                <div class="form-group">
-                                    <label>Usuario</label>
-                                    <input type="text" class="form-control form-control-lg rounded-0" name="username" value="<?=$nuevoUsuario->getUsuario()?>" >
-
-                                </div>
                                 <div class="form-group">
                                     <label>Email</label>
                                     <input type="text" class="form-control form-control-lg rounded-0" name="email" value="<?=$nuevoUsuario->getEmail()?>" >

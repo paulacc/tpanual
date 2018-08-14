@@ -3,8 +3,6 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 
-
-
  class Usuario
  {
 
@@ -14,27 +12,20 @@ ini_set('display_errors', 1);
     private $dni;
     private $codigo;
     private $telefono;
-    private $usuario;
     private $email;
     private $pwd;
     private $avatar;
 
-
-    function __construct($name,$lastname,$dni,$codigo,$telefono,$usuario,$email,$pwd,$avatar,$id=null)
+    
+    //aca solo debe ir los datos que sean obligatorios constructor
+  
+    function __construct($name,$lastname,$email)
     {
-      $this->id = trim($id);
-      $this->name = trim($name);
+      $this->setName($name);
       $this->lastname = trim($lastname);
-      $this->dni = trim($dni);
-      $this->codigo = trim($codigo);
-      $this->telefono = trim($telefono);
-      $this->usuario = trim($usuario);
       $this->email = trim($email);
-      $this->pwd = trim($pwd);
-      $this->avatar = trim($avatar);
-
+      //$this->setPwd($pwd);
     }
-
 
 
           public function Validar($rpwd)
@@ -59,7 +50,7 @@ ini_set('display_errors', 1);
                       $errores[] = "Debes ingresar una contraseña ";
                  }elseif ((strlen($this->pwd) < 3 )) {
                     $errores[] = "La contraseña debe tener más de 3 caracteres ";
-                  }elseif($this->ValidarEmail()){
+                  }elseif($this->validarEmail()){
                     $errores[] = "El mail ya se encuentra registrado";
                   }
                   if($this->pwd != $rpwd){
@@ -90,7 +81,7 @@ ini_set('display_errors', 1);
             include 'conn.php';
            try {
              $phash = password_hash(trim($this->pwd),PASSWORD_DEFAULT);
-             $sql = "INSERT INTO movies_db.usuarios (name, email, password,role) VALUES ('{$this->name}','{$this->email}','{$phash}','1')";
+             $sql = "INSERT INTO movies_db.usuarios (name, email, password) VALUES ('{$this->name}','{$this->email}','{$phash}')";
              $query = $db->prepare($sql);
              $query->execute();
            }
@@ -124,7 +115,7 @@ ini_set('display_errors', 1);
          if(count($resultado)==1)
          {
            foreach ($resultado as $registro) {
-            if(password_verify($this->password,$registro['password'])){
+            if(password_verify($this->password,$registro['pwd'])){
               return true;
             }
          }
@@ -158,9 +149,7 @@ ini_set('display_errors', 1);
         }
 
 
-        public function getUsuario(){
-          return $this->usuario;
-        }
+    
 
 
         public function getEmail(){
@@ -175,6 +164,52 @@ ini_set('display_errors', 1);
         public function getAvatar(){
           return $this->avatar;
         }
+
+        
+        
+    
+        
+        public function setId($id){
+              $this->id = trim($id);
+        }
+        public function setName($name){
+          $this->name = trim($name);
+        }
+        
+        public function setLastname($lastname){
+          $this->lastname = trim($lastname);
+        }
+        
+        public function setDni($dni){
+          $this->dni = trim($dni);
+        }
+        
+        
+        public function setCodigo($codigo){
+          $this->codigo = trim($codigo);
+        }
+        
+        
+        public function setTelefono($telefono){
+          $this->telefono = trim($telefono);
+        }
+        
+        
+        public function setEmail($email){
+          $this->email = trim($email);
+        }
+        
+        public function setAvatar($avatar){
+          $this->avatar = trim($avatar);
+        }
+        
+        public function setPwd($pwd){
+          $this->pwd =  password_hash($pwd, PASSWORD_DEFAULT);
+        }
+  
+        
+        
+        
 
 
 
