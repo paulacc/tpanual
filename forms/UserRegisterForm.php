@@ -27,9 +27,13 @@ class UserRegisterForm
     $this->avatar =  $files['avatar'] ?? [];
     $this->pwd =  $post['pwd'] ?? '';
     $this->rpwd =  $post['rpwd'] ?? '';
+    $this->messages = [];
+
   }
 
    public function isValid() {
+
+
       // Name
       if (empty($this->name)) {
         $this->messages['name'] = "El campo nombre es obligatorio";
