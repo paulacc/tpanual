@@ -69,7 +69,6 @@
 
             }
              return $errores;
-
          }
 
        private function validarPassword(){
@@ -129,13 +128,9 @@
         }
 
 
-
         public function getAvatar(){
           return $this->avatar;
         }
-
-
-
 
 
         public function setId($id){

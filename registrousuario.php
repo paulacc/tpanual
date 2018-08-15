@@ -6,12 +6,21 @@
 //}
 
 require_once ('requires.php');
-require ('clases/usuario.php');
 
-$errores=[];
+//limpiar para evitar que se rompa php  $_POST
 
-$form = new UserRegisterForm($_POST);
-$nuevoUsuario = new Usuario('', '', '');
+$id =  $_POST['id'] ?? null;
+$name =  $_POST['name'] ?? null;
+$lastname =  $_POST['lastname'] ?? null;
+$email =  $_POST['email'] ?? null;
+$dni =  $_POST['dni'] ?? null;
+$codigo =  $_POST['codigo'] ?? null;
+$telefono =  $_POST['telefono'] ?? null;
+$avatar =  $_POST['avatar'] ?? null;
+$pwd = $_POST['pwd'] ?? null;
+$rpwd = $_POST['rpwd'] ?? null;
+
+$messages = [];
 
 if($_POST){
 
@@ -23,19 +32,7 @@ if($_POST){
   // }
   // $id =  isset($_POST['id']) ? $_POST['id'] : 0;
 
-  //limpiar para evitar que se rompa php  $_POST
 
-  $id =  $_POST['id'] ?? 0;
-  $name =  $_POST['name'] ?? '';
-  $lastname =  $_POST['lastname'] ?? '';
-  $email =  $_POST['email'] ?? '';
-  $dni =  $_POST['dni'] ?? '';
-  $codigo =  $_POST['codigo'] ?? '';
-  $telefono =  $_POST['telefono'] ?? '';
-  $avatar =  $_POST['avatar'] ?? '';
-
-  $pwd = $_POST['pwd'] ?? '';
-  $rpwd = $_POST['rpwd'] ?? '';
 
 // validacion del formulario
   $form = new UserRegisterForm($_POST, $_FILES);
@@ -52,17 +49,10 @@ if($_POST){
 
     // $nuevoUsuario->GuardarUsuario();
     //  header('location: logueo.php');
+  }else
+  {
+     $messages = $form->getMessages();
   }
-
-
-
-
-    //$errores = $nuevoUsuario->Validar();
-    //$errores = Validar($_POST);
-
-    if (empty($errores)) {
-      //exit;
-   }
 }
 
 ?>
@@ -76,13 +66,12 @@ if($_POST){
     <title></title>
   </head>
   <body>
-    <?php if ($form->getMessages()):
-      $messages = $form->getMessages() ?>
+    <?php if ($messages): ?>
 
       <!-- Si no esta vacia errores -->
       <div class="div-errores alert alert-danger">
         <ul>
-          <?php foreach ($form->getMessages() as $value): ?>
+          <?php foreach ($messages as $value): ?>
           <li><?= $value?></li>
           <?php endforeach; ?>
         </ul>
@@ -105,32 +94,32 @@ if($_POST){
                             <form  method="post" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label for="uname1">Nombre</label>
-                                    <input type="text" class="form-control form-control-lg rounded-0" name="name"  value="<?= $form->getName() ?>">
+                                    <input type="text" class="form-control form-control-lg rounded-0" name="name"  value="<?= $name ?>">
 
                                 </div>
                                 <div class="form-group">
                                     <label>Apellidos</label>
-                                    <input type="text" class="form-control form-control-lg rounded-0" name="lastname" value="<?= $form->getLastname() ?>" >
+                                    <input type="text" class="form-control form-control-lg rounded-0" name="lastname" value="<?= $lastname ?>" >
 
                                 </div>
                                 <div class="form-group">
                                     <label>Dni</label>
-                                    <input type="number" class="form-control form-control-lg rounded-0" name="dni" value="<?= $form->getDni() ?>" >
+                                    <input type="number" class="form-control form-control-lg rounded-0" name="dni" value="<?= $dni ?>" >
 
                                 </div>
                                 <div class="form-group">
                                     <label>Codigo</label>
-                                    <input type="text" class="form-control form-control-lg rounded-0" name="codigo" value="<?= $form->getCodigo() ?>" >
+                                    <input type="text" class="form-control form-control-lg rounded-0" name="codigo" value="<?= $codigo ?>" >
                                 </div>
                                 <div class="form-group">
                                     <label>Telefono</label>
-                                    <input type="text" class="form-control form-control-lg rounded-0" name="telefono" value="<?= $form->getTelefono() ?>" >
+                                    <input type="text" class="form-control form-control-lg rounded-0" name="telefono" value="<?= $telefono ?>" >
 
                                 </div>
 
                                 <div class="form-group">
                                     <label>Email</label>
-                                    <input type="text" class="form-control form-control-lg rounded-0" name="email" value="<?= $form->getEmail() ?>" >
+                                    <input type="text" class="form-control form-control-lg rounded-0" name="email" value="<?= $email ?>" >
 
                                 </div>
                                 <div class="form-group">
@@ -146,7 +135,7 @@ if($_POST){
 
                                 <div class="form-group">
                                     <label>Avatar</label>
-                                    <input type="file" class="form-control form-control-lg rounded-0" name="avatar" value="<?= $form->getAvatar() ?>" >
+                                    <input type="file" class="form-control form-control-lg rounded-0" name="avatar" value="<?= $avatar ?>" >
                                 </div>
                                 <button type="submit" class="btn btn-primary boton float-right ">Registrar</button>
                             </form>
