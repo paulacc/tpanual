@@ -1,7 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 
  class Usuario
  {
@@ -28,7 +25,7 @@ ini_set('display_errors', 1);
     }
 
 
-  
+
 
 
            public function validarEmail(){
@@ -130,6 +127,8 @@ ini_set('display_errors', 1);
         public function getPwd(){
           return $this->pwd;
         }
+
+
 
         public function getAvatar(){
           return $this->avatar;

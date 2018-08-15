@@ -5,19 +5,13 @@
   //exit;
 //}
 
+require_once ('requires.php');
+require ('clases/usuario.php');
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-require 'clases/usuario.php';
-require 'funciones.php';
-//require 'funciones.php';
-
-$nuevoUsuario = new Usuario("","","","","","","","","");
-//persistir datos
-$rpwd = "";
 $errores=[];
 
+$form = new UserRegisterForm($_POST);
+$nuevoUsuario = new Usuario('', '', '');
 
 if($_POST){
 
@@ -29,7 +23,7 @@ if($_POST){
   // }
   // $id =  isset($_POST['id']) ? $_POST['id'] : 0;
 
-  //limpiar $_POST
+  //limpiar para evitar que se rompa php  $_POST
 
   $id =  $_POST['id'] ?? 0;
   $name =  $_POST['name'] ?? '';
@@ -40,51 +34,38 @@ if($_POST){
   $telefono =  $_POST['telefono'] ?? '';
   $avatar =  $_POST['avatar'] ?? '';
 
+  $pwd = $_POST['pwd'] ?? '';
+  $rpwd = $_POST['rpwd'] ?? '';
 
-  //creando objeto
-   $nuevoUsuario = new Usuario($name,$lastname,$email);
-   $nuevoUsuario->setId($id);
-   $nuevoUsuario->setDni($dni);
-   $nuevoUsuario->setCodigo($codigo);
-   $nuevoUsuario->setTelefono($telefono);
-   $nuevoUsuario->setAvatar($avatar);
+// validacion del formulario
+  $form = new UserRegisterForm($_POST, $_FILES);
+
+  if($form->isValid()){
+    //creando objeto
+    $nuevoUsuario = new Usuario($name,$lastname,$email);
+
+    $nuevoUsuario->setId($id);
+    $nuevoUsuario->setDni($dni);
+    $nuevoUsuario->setCodigo($codigo);
+    $nuevoUsuario->setTelefono($telefono);
+    $nuevoUsuario->setAvatar($avatar);
+
+    // $nuevoUsuario->GuardarUsuario();
+    //  header('location: logueo.php');
+  }
 
 
-    $rpwd=trim($_POST['rpwd']);
+
+
     //$errores = $nuevoUsuario->Validar();
-    $errores = Validar($_POST);
+    //$errores = Validar($_POST);
 
     if (empty($errores)) {
-      $nuevoUsuario->GuardarUsuario();
-      header('location: logueo.php');
-      exit;
+      //exit;
    }
 }
 
-
-
-	//if ($_POST) {
-
-	//	$name = trim($_POST['name']);
-	//	$lastname = trim($_POST['lastname']);
-	//	$dni = trim($_POST['dni']);
-	//	$areacode = trim($_POST['codigo']);
-	//$phone = trim($_POST['telefono']);
-		//$username = trim($_POST['username']);
-		//$email = trim($_POST['email']);
-
-		//$errores = validar($_POST, 'avatar');
-
-		//if (empty($errores)) {
-			//$errores = guardarImagen('avatar');
-
-			//if (empty($errores)) {
-				//$usuario = guardarUsuario($_POST, 'avatar');
-				//loguear($usuario);
-			//}
-		//}
-	//}
- ?>
+?>
 
 <!DOCTYPE html>
 <html>
@@ -95,12 +76,14 @@ if($_POST){
     <title></title>
   </head>
   <body>
-    <?php if (!empty($errores)): ?>
+    <?php if ($form->getMessages()):
+      $messages = $form->getMessages() ?>
+
       <!-- Si no esta vacia errores -->
       <div class="div-errores alert alert-danger">
         <ul>
-          <?php foreach ($errores as $value): ?>
-          <li><?=$value?></li>
+          <?php foreach ($form->getMessages() as $value): ?>
+          <li><?= $value?></li>
           <?php endforeach; ?>
         </ul>
       </div>
@@ -122,48 +105,48 @@ if($_POST){
                             <form  method="post" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label for="uname1">Nombre</label>
-                                    <input type="text" class="form-control form-control-lg rounded-0" name="name"  value="<?=$nuevoUsuario->getName()?>">
+                                    <input type="text" class="form-control form-control-lg rounded-0" name="name"  value="<?= $form->getName() ?>">
 
                                 </div>
                                 <div class="form-group">
                                     <label>Apellidos</label>
-                                    <input type="text" class="form-control form-control-lg rounded-0" name="lastname" value="<?=$nuevoUsuario->getLastname()?>" >
+                                    <input type="text" class="form-control form-control-lg rounded-0" name="lastname" value="<?= $form->getLastname() ?>" >
 
                                 </div>
                                 <div class="form-group">
                                     <label>Dni</label>
-                                    <input type="number" class="form-control form-control-lg rounded-0" name="dni" value="<?=$nuevoUsuario->getDni()?>" >
+                                    <input type="number" class="form-control form-control-lg rounded-0" name="dni" value="<?= $form->getDni() ?>" >
 
                                 </div>
                                 <div class="form-group">
                                     <label>Codigo</label>
-                                    <input type="text" class="form-control form-control-lg rounded-0" name="codigo" value="<?=$nuevoUsuario->getCodigo()?>" >
+                                    <input type="text" class="form-control form-control-lg rounded-0" name="codigo" value="<?= $form->getCodigo() ?>" >
                                 </div>
                                 <div class="form-group">
                                     <label>Telefono</label>
-                                    <input type="text" class="form-control form-control-lg rounded-0" name="telefono" value="<?=$nuevoUsuario->getTelefono()?>" >
+                                    <input type="text" class="form-control form-control-lg rounded-0" name="telefono" value="<?= $form->getTelefono() ?>" >
 
                                 </div>
 
                                 <div class="form-group">
                                     <label>Email</label>
-                                    <input type="text" class="form-control form-control-lg rounded-0" name="email" value="<?=$nuevoUsuario->getEmail()?>" >
+                                    <input type="text" class="form-control form-control-lg rounded-0" name="email" value="<?= $form->getEmail() ?>" >
 
                                 </div>
                                 <div class="form-group">
                                     <label>Constraseña</label>
-                                    <input type="password" class="form-control form-control-lg rounded-0" name="pwd" value= "<?=$nuevoUsuario->getPwd()?>">
+                                    <input type="password" class="form-control form-control-lg rounded-0" name="pwd" value="">
 
                                 </div>
                                 <div class="form-group">
                                     <label>Repetir Constraseña</label>
-                                    <input type="password" class="form-control form-control-lg rounded-0" name="rpwd" value="<?=$rpwd?>" >
+                                    <input type="password" class="form-control form-control-lg rounded-0" name="rpwd" value="" >
 
                                 </div>
 
                                 <div class="form-group">
                                     <label>Avatar</label>
-                                    <input type="file" class="form-control form-control-lg rounded-0" name="avatar" value="<?=$nuevoUsuario->getAvatar()?>" >
+                                    <input type="file" class="form-control form-control-lg rounded-0" name="avatar" value="<?= $form->getAvatar() ?>" >
                                 </div>
                                 <button type="submit" class="btn btn-primary boton float-right ">Registrar</button>
                             </form>
