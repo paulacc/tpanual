@@ -16,9 +16,9 @@ ini_set('display_errors', 1);
     private $pwd;
     private $avatar;
 
-    
+
     //aca solo debe ir los datos que sean obligatorios constructor
-  
+
     function __construct($name,$lastname,$email)
     {
       $this->setName($name);
@@ -28,37 +28,7 @@ ini_set('display_errors', 1);
     }
 
 
-          public function Validar($rpwd)
-                {
-                    $errores = [] ;
-
-                 if(empty($this->name)){
-                    $errores[] = "El campo nombre es obligatorio";
-                  }elseif (!ctype_alpha($this->name)){
-                        $errores[] = "El campo nombre solo debe contener letras";
-                 }if(empty($this->dni)){
-                       $errores[] = "El campo dni es obligatorio";
-                 }elseif (!is_numeric($this->dni)) {
-                       $errores[] = "El campo dni sólo debe contener números";
-                     }
-                  if($this->email == ''){
-                      $errores[]= "El campo email es obligatorio";
-                  }elseif(!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
-                       $errores[] = 'El correo no es válido" ';
-                  }
-                  if(empty($this->email)){
-                      $errores[] = "Debes ingresar una contraseña ";
-                 }elseif ((strlen($this->pwd) < 3 )) {
-                    $errores[] = "La contraseña debe tener más de 3 caracteres ";
-                  }elseif($this->validarEmail()){
-                    $errores[] = "El mail ya se encuentra registrado";
-                  }
-                  if($this->pwd != $rpwd){
-                     $errores[]= "las contraseñas deben coincidir ";
-                 }
-                     return $errores;
-                  }
-
+  
 
 
            public function validarEmail(){
@@ -149,7 +119,7 @@ ini_set('display_errors', 1);
         }
 
 
-    
+
 
 
         public function getEmail(){
@@ -165,51 +135,51 @@ ini_set('display_errors', 1);
           return $this->avatar;
         }
 
-        
-        
-    
-        
+
+
+
+
         public function setId($id){
               $this->id = trim($id);
         }
         public function setName($name){
           $this->name = trim($name);
         }
-        
+
         public function setLastname($lastname){
           $this->lastname = trim($lastname);
         }
-        
+
         public function setDni($dni){
           $this->dni = trim($dni);
         }
-        
-        
+
+
         public function setCodigo($codigo){
           $this->codigo = trim($codigo);
         }
-        
-        
+
+
         public function setTelefono($telefono){
           $this->telefono = trim($telefono);
         }
-        
-        
+
+
         public function setEmail($email){
           $this->email = trim($email);
         }
-        
+
         public function setAvatar($avatar){
           $this->avatar = trim($avatar);
         }
-        
+
         public function setPwd($pwd){
           $this->pwd =  password_hash($pwd, PASSWORD_DEFAULT);
         }
-  
-        
-        
-        
+
+
+
+
 
 
 

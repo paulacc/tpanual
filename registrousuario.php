@@ -10,6 +10,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 require 'clases/usuario.php';
+require 'funciones.php';
 //require 'funciones.php';
 
 $nuevoUsuario = new Usuario("","","","","","","","","");
@@ -27,7 +28,7 @@ if($_POST){
   //   $id = 0;
   // }
   // $id =  isset($_POST['id']) ? $_POST['id'] : 0;
-  
+
   //limpiar $_POST
 
   $id =  $_POST['id'] ?? 0;
@@ -38,19 +39,20 @@ if($_POST){
   $codigo =  $_POST['codigo'] ?? '';
   $telefono =  $_POST['telefono'] ?? '';
   $avatar =  $_POST['avatar'] ?? '';
-  
-  
-  //creando objeto 
+
+
+  //creando objeto
    $nuevoUsuario = new Usuario($name,$lastname,$email);
    $nuevoUsuario->setId($id);
    $nuevoUsuario->setDni($dni);
    $nuevoUsuario->setCodigo($codigo);
    $nuevoUsuario->setTelefono($telefono);
    $nuevoUsuario->setAvatar($avatar);
-   
+
 
     $rpwd=trim($_POST['rpwd']);
-    $errores = $nuevoUsuario->Validar($rpwd);
+    //$errores = $nuevoUsuario->Validar();
+    $errores = Validar($_POST);
 
     if (empty($errores)) {
       $nuevoUsuario->GuardarUsuario();
