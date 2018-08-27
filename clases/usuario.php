@@ -114,10 +114,6 @@
           return $this->telefono;
         }
 
-
-
-
-
         public function getEmail(){
           return $this->email;
         }
@@ -127,11 +123,9 @@
           return $this->pwd;
         }
 
-
         public function getAvatar(){
           return $this->avatar;
         }
-
 
         public function setId($id){
               $this->id = trim($id);
@@ -148,7 +142,6 @@
           $this->dni = trim($dni);
         }
 
-
         public function setCodigo($codigo){
           $this->codigo = trim($codigo);
         }
@@ -157,7 +150,6 @@
         public function setTelefono($telefono){
           $this->telefono = trim($telefono);
         }
-
 
         public function setEmail($email){
           $this->email = trim($email);
@@ -170,15 +162,6 @@
         public function setPwd($pwd){
           $this->pwd =  password_hash($pwd, PASSWORD_DEFAULT);
         }
-
-
-
-
-
-
-
-
-
     }
 
 ?>
