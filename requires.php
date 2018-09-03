@@ -4,4 +4,5 @@
 
   require_once ('clases/usuario.php');
   require_once ('forms/UserRegisterForm.php');
+  require_once ('repositories/UserRepository.php');
 ?>
