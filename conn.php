@@ -1,7 +1,7 @@
 <?php
 $host = 'mysql:host=127.0.0.1;dbname=usuarios;port=3306';
-$db_user = 'root';
-$db_pass = 'root';
+$db_user = 'paula';
+$db_pass = 'paula';
 $opt = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
 
 

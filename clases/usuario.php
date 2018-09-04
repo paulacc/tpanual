@@ -43,18 +43,6 @@
 
 
 
-          public function guardarUsuario()
-          {
-            include 'conn.php';
-           try {
-             $phash = password_hash(trim($this->pwd),PASSWORD_DEFAULT);
-             $sql = "INSERT INTO movies_db.usuarios (name, email, password) VALUES ('{$this->name}','{$this->email}','{$phash}')";
-             $query = $db->prepare($sql);
-             $query->execute();
-           }
-           catch( PDOException $Exception ){
-           }
-         }
 
 
 

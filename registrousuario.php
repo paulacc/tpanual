@@ -22,11 +22,6 @@ $rpwd = $_POST['rpwd'] ?? null;
 
 $messages = [];
 
-$userRepo = new UserRepository;
-$myUser = $userRepo->fetchByEmail('juan@perez.com');
-var_dump($myUser);
-
-
 if($_POST){
 
 //controlar lo que llega por Post y creo las variables necesarioas para crear el objeto
@@ -52,9 +47,13 @@ if($_POST){
     $nuevoUsuario->setTelefono($telefono);
     $nuevoUsuario->setAvatar($avatar);
 
+    $userRepo = new UserRepository;
+    $userRepo->save($nuevoUsuario);
+
     // $nuevoUsuario->GuardarUsuario();
     //  header('location: logueo.php');
-  }else
+  }
+  else
   {
      $messages = $form->getMessages();
   }

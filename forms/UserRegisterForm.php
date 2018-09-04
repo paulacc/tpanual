@@ -1,4 +1,6 @@
 <?php
+require_once ('requires.php');
+
 class UserRegisterForm
 {
   private $id;
@@ -54,10 +56,12 @@ class UserRegisterForm
       } elseif (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
         $this->messages['email'] = 'El correo no es válido" ';
       }
-      // falta validacion de email
-    //  elseif ($this->validarEmail()) {
-      //  $this->messages['email'] = "El mail ya se encuentra registrado";
-      //}
+
+      $userRepo = new UserRepository;
+      $userExists = $userRepo->fetchByEmail($this->email);
+      if($userExists){
+        $this->messages['email'] = 'el email ya se encuentra registrado';
+      }
 
       // Pass
       if (empty($this->pwd)) {
@@ -87,6 +91,10 @@ class UserRegisterForm
 
     public function getMessages(){
       return $this->messages;
+    }
+
+    public function setMessage($field, $messages){
+      $this->messages[$field] = $messages;
     }
 
     public function getId() {
